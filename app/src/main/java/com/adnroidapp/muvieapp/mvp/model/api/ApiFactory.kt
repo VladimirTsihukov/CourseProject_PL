@@ -12,8 +12,6 @@ object ApiFactory {
     private const val API_KEY = "api_key"
     private const val QUERY_PARAM_LANGUAGE = "language"
     private const val LANGUAGE_RUS = "ru"
-    const val QUERY_PARAM_MOVIE_ID_COR = "movie_id"
-    const val BASE_URL_MOVIE_IMAGE = "https://image.tmdb.org/t/p/w500/"
 
     private val authInterceptor = Interceptor {chain ->
             val newUrl = chain.request().url()

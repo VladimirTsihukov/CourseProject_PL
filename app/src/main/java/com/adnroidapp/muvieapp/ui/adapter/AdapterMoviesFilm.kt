@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.model.image.IImageLoader
 import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick

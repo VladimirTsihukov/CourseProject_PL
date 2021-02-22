@@ -7,19 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import com.adnroidapp.muvieapp.mvp.model.cache.roomcache.CacheRoomMovies
-import com.adnroidapp.muvieapp.mvp.model.entity.room.db.DBMovies
-import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMoviesList
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderMovies
-import com.adnroidapp.muvieapp.ui.network.AndroidNetworkStatus
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -35,14 +29,7 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     private lateinit var bottomNav: BottomNavigationView
 
     private val presenter by moxyPresenter {
-        PresenterMovieList(
-            cache = CacheRoomMovies(DBMovies.instance(App.instance)),
-            retrofitLoadMovies = RetrofitLoadMoviesList(
-                ApiFactory.apiServiceMovies,
-                AndroidNetworkStatus(App.instance),
-                CacheRoomMovies(DBMovies.instance(App.instance))
-            )
-        ).apply {
+        PresenterMovieList().apply {
             App.instance.appComponent.inject(this)
         }
     }

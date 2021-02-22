@@ -7,25 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
+import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory
-import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
-import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesDetail
-import com.adnroidapp.muvieapp.mvp.model.cache.roomcache.CacheRoomMovieDetail
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
-import com.adnroidapp.muvieapp.mvp.model.entity.room.db.DBMovies
-import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMovieDetail
-import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMoviesList
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
 import com.adnroidapp.muvieapp.mvp.view.MovieDetailView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterActors
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActor
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderMovies
-import com.adnroidapp.muvieapp.ui.network.AndroidNetworkStatus
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import moxy.MvpAppCompatFragment
@@ -50,15 +42,10 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
 
     private val presenter: PresenterMovieDetail by moxyPresenter {
         Log.v(LOG_KEY, "FragmentMovieDetail: init presenter")
+
         val movieID = arguments?.getLong(KEY_ID_MOVIE_DETAIL) ?: -1L
 
-        PresenterMovieDetail(
-            movieId = movieID,
-            retrofitLoadDetail = RetrofitLoadMovieDetail(
-                ApiFactory.apiServiceMovies,
-                AndroidNetworkStatus(App.instance),
-                CacheRoomMovieDetail(DBMovies.instance(App.instance)))
-        ).apply {
+        PresenterMovieDetail(movieId = movieID).apply {
             App.instance.appComponent.inject(this)
         }
     }

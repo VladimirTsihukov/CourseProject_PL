@@ -1,7 +1,6 @@
 package com.adnroidapp.muvieapp.mvp.di
 
-import com.adnroidapp.muvieapp.mvp.di.modules.AppModule
-import com.adnroidapp.muvieapp.mvp.di.modules.CiceroneModule
+import com.adnroidapp.muvieapp.mvp.di.modules.*
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMain
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
@@ -13,7 +12,10 @@ import javax.inject.Singleton
 @Component(
     modules = [
         CiceroneModule::class,
-        AppModule::class]
+        AppModule::class,
+        ApiModule::class,
+        DatabaseModule::class,
+        RepoModule::class]
 )
 interface AppComponent {
     fun inject(mainActivity: MainActivity)

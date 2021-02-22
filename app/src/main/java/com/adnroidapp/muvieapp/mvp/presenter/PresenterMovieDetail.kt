@@ -11,10 +11,10 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
-class PresenterMovieDetail(
-    val movieId: Long,
-    private val retrofitLoadDetail: ILoadMoviesDetail
-): MvpPresenter<MovieDetailView>() {
+class PresenterMovieDetail(val movieId: Long): MvpPresenter<MovieDetailView>() {
+
+    @Inject
+    lateinit var  retrofitLoadDetail: ILoadMoviesDetail
 
     @Inject
     lateinit var router: Router
