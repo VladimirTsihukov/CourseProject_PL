@@ -106,7 +106,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
         view?.let {
             setPosterIcon(BASE_URL_MOVIE_IMAGE + movieDetail.backdrop)
             mov_list_age_category.text = resources.getString(R.string.fragment_age_category).let {
-                String.format(it, "${(movieDetail.ratings)}")
+                String.format(it, "${(movieDetail.minimumAge)}")
             }
             mov_list_movie_genre.text = movieDetail.genres
             mov_list_text_story_line.text = movieDetail.overview

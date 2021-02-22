@@ -29,7 +29,7 @@ class CacheRoomMovieDetail(val db: DBMovies) : IMoviesDetailCache {
                 voteCount = movie.voteCount.toInt(),
                 minimumAge = if (movie.adult) 16 else 13,
                 runtime = movie.runtime,
-                genres = movie.genres.joinToString (SEPARATOR){ it.name },
+                genres = movie.genres.joinToString (", "){ it.name },
             )
         }
         db.moviesDetail().insertMovieDetail(movieRoom)

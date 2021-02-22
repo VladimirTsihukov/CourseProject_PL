@@ -45,7 +45,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginStart="@dimen/space_4x"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/ic_path"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -89,7 +89,7 @@
                 android:layout_marginBottom="@dimen/space_3x"
                 android:text="@string/str_age_category"
                 android:textColor="@color/app_white"
-                android:textSize="@dimen/space_3x"
+                android:textSize="@dimen/space_5x"
                 app:layout_constraintBottom_toTopOf="@id/mov_list_film_name"
                 app:layout_constraintStart_toStartOf="@id/mov_list_film_name"
                 tools:ignore="SpUsage" />

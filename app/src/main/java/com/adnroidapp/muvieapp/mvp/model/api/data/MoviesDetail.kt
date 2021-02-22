@@ -58,6 +58,6 @@ fun MoviesDetail.getMovieRoom(): RoomDetailMovie {
         voteCount = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,
         runtime = runtime,
-        genres = genres.joinToString (ClassKey.SEPARATOR){ it.name },
+        genres = genres.joinToString (", "){ it.name },
     )
 }
