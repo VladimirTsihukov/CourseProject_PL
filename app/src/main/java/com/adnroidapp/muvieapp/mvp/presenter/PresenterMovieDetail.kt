@@ -8,14 +8,19 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 @InjectViewState
 class PresenterMovieDetail(
     val movieId: Long,
-    private val router: Router,
-    private val mainThreadScheduler: Scheduler,
     private val retrofitLoadDetail: ILoadMoviesDetail
 ): MvpPresenter<MovieDetailView>() {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var mainThreadScheduler: Scheduler
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

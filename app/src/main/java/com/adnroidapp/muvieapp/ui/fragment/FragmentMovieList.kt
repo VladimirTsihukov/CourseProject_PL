@@ -36,15 +36,15 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
 
     private val presenter by moxyPresenter {
         PresenterMovieList(
-            router = App.instance.router,
-            mainThreadScheduler = AndroidSchedulers.mainThread(),
             cache = CacheRoomMovies(DBMovies.instance(App.instance)),
             retrofitLoadMovies = RetrofitLoadMoviesList(
                 ApiFactory.apiServiceMovies,
                 AndroidNetworkStatus(App.instance),
                 CacheRoomMovies(DBMovies.instance(App.instance))
             )
-        )
+        ).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

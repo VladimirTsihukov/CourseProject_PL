@@ -54,13 +54,13 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
 
         PresenterMovieDetail(
             movieId = movieID,
-            router = App.instance.router,
-            mainThreadScheduler = AndroidSchedulers.mainThread(),
             retrofitLoadDetail = RetrofitLoadMovieDetail(
                 ApiFactory.apiServiceMovies,
                 AndroidNetworkStatus(App.instance),
                 CacheRoomMovieDetail(DBMovies.instance(App.instance)))
-        )
+        ).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     private val recyclerView: RecyclerView? by lazy {

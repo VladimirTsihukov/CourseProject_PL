@@ -3,16 +3,13 @@ package com.adnroidapp.muvieapp
 import android.app.Application
 import android.util.Log
 import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
-import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.Router
-
+import com.adnroidapp.muvieapp.mvp.di.AppComponent
+import com.adnroidapp.muvieapp.mvp.di.DaggerAppComponent
+import com.adnroidapp.muvieapp.mvp.di.modules.AppModule
 
 class App : Application() {
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Log.v(LOG_KEY, "Create Cicerone")
-        Cicerone.create()
-    }
+    lateinit var appComponent: AppComponent
 
     companion object {
         lateinit var instance: App
@@ -22,11 +19,9 @@ class App : Application() {
         super.onCreate()
         Log.v(LOG_KEY, "Create App")
         instance = this
+
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
     }
-
-    val navigatorHolder
-        get() = cicerone.navigatorHolder
-
-    val router
-        get() = cicerone.router
 }

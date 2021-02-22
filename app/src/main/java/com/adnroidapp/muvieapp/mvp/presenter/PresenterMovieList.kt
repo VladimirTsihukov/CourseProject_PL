@@ -12,14 +12,19 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 @InjectViewState
 class PresenterMovieList(
-    private val router: Router,
-    private val mainThreadScheduler: Scheduler,
     private val cache: IMoviesCache,
     private val retrofitLoadMovies: ILoadMoviesList
 ) : MvpPresenter<MovieListView>(), PresenterDetailViewClick {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var mainThreadScheduler: Scheduler
 
     var movieFavorite = false
 
