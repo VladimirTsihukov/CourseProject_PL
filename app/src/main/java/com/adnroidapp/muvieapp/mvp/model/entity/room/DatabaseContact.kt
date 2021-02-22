@@ -6,5 +6,4 @@ object DatabaseContact {
     const val TABLE_NAME_MOVIES = "tableMovies"
     const val TABLE_NAME_MOVIES_LIKE = "tableMoviesLike"
     const val TABLE_NAME_MOVIES_DETAIL = "tableMoviesDetails"
-    const val SEPARATOR = "_"
 }

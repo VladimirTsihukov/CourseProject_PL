@@ -4,7 +4,6 @@ import android.util.Log
 import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.ClassKey.SEPARATOR
 import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
-import com.adnroidapp.muvieapp.mvp.model.api.data.MovieActors
 import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesDetail
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesDetailCache
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
