@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_1x"
         android:text="@string/str_reviews"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textColor="@color/app_grey"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@id/holder_star_level_1"

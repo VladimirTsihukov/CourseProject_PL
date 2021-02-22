@@ -9,12 +9,15 @@ import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.R
 import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
+import com.adnroidapp.muvieapp.mvp.model.cache.roomcache.CacheRoomMovies
+import com.adnroidapp.muvieapp.mvp.model.entity.room.db.DBMovies
 import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMoviesList
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderMovies
+import com.adnroidapp.muvieapp.ui.network.AndroidNetworkStatus
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -35,7 +38,12 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
         PresenterMovieList(
             router = App.instance.router,
             mainThreadScheduler = AndroidSchedulers.mainThread(),
-            retrofitLoadMovies = RetrofitLoadMoviesList(ApiFactory.apiServiceMovies)
+            cache = CacheRoomMovies(DBMovies.instance(App.instance)),
+            retrofitLoadMovies = RetrofitLoadMoviesList(
+                ApiFactory.apiServiceMovies,
+                AndroidNetworkStatus(App.instance),
+                CacheRoomMovies(DBMovies.instance(App.instance))
+            )
         )
     }
 
@@ -54,14 +62,17 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
                 when(item.itemId) {
                     R.id.nav_popular -> {
                         presenter.loadMoviesPopular()
+                        presenter.movieFavorite = false
                         true
                     }
                     R.id.nav_top -> {
                         presenter.loadMoviesTopRate()
+                        presenter.movieFavorite = false
                         true
                     }
                     R.id.nav_favorite -> {
-
+                        presenter.loadMoviesFavorite()
+                        presenter.movieFavorite = true
                         true
                     }
                     else -> {

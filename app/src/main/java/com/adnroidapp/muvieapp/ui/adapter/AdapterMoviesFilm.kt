@@ -35,6 +35,12 @@ class AdapterMoviesFilm(
         holder.item.setOnClickListener {
             Log.v(LOG_KEY, "AdapterMoviesFilm: click movie id = ${movies[position].id}")
             presenter.clickMovie(movies[position].id) }
+        holder.iconLike.setOnClickListener {
+            Log.v(LOG_KEY, "AdapterMoviesFilm: click like icon")
+            presenter.clickLikeIcon(movies[position].likeMovies, movies[position])
+            movies[position].likeMovies = !movies[position].likeMovies
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int = movies.size
@@ -55,15 +61,18 @@ class AdapterMoviesFilm(
         private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
         private val reviews: TextView = item.findViewById(R.id.holder_reviews)
         private val filName: TextView = item.findViewById(R.id.holder_film_name)
-        private val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
+        val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
 
         @SuppressLint("SetTextI18n")
         fun onBind(movie: Movie) {
 
             setPosterIcon(BASE_URL_MOVIE_IMAGE + movie.posterPath)
-            ageCategory.text = "${movie.voteAverage}+"
+            ageCategory.text = item.context.resources.getString(R.string.fragment_age_category).let {
+                String.format(it, "${if (movie.adult) 16 else 13}")}
             setImageStars((movie.voteAverage / 2).roundToInt())
-            reviews.text = "${if (movie.adult) 16 else 13} Reviews"
+            reviews.text = item.context.resources.getString(R.string.fragment_reviews).let {
+                String.format(it, "${movie.voteCount}")
+            }
             filName.text = movie.title
             iconLike.setImageResource(
                 if (movie.likeMovies) {

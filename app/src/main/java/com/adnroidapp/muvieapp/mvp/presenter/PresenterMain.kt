@@ -6,7 +6,6 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
-@InjectViewState                                //TODO 1 (необходимо ли в Kotlin ставить эту аннотацию)
 class PresenterMain(private val router: Router) : MvpPresenter<MainView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

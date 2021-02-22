@@ -25,9 +25,6 @@ data class Movie(
     @SerializedName("vote_count")
     val voteCount: Long,
 
-    @SerializedName("genre_ids")
-    val genreIDS: List<Long>,
-
     val adult: Boolean,
 
     var likeMovies: Boolean = false,
