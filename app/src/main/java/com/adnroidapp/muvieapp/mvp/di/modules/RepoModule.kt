@@ -15,14 +15,14 @@ import javax.inject.Singleton
 @Module
 class RepoModule {
 
-    @Singleton
-    @Provides
-    fun retrofitLoaderMovies(api: ApiService, networkStatus: INetworkStatus, cache: IMoviesCache)
-    : ILoadMoviesList = RetrofitLoadMoviesList(api, networkStatus, cache)
-
-    @Singleton
-    @Provides
-    fun retrofitLoadDetail(api: ApiService, networkStatus: INetworkStatus, cache: IMoviesDetailCache)
-    : ILoadMoviesDetail = RetrofitLoadMovieDetail(api, networkStatus, cache)
+//    @Singleton
+//    @Provides
+//    fun retrofitLoaderMovies(api: ApiService, networkStatus: INetworkStatus, cache: IMoviesCache)
+//    : ILoadMoviesList = RetrofitLoadMoviesList(api, networkStatus, cache)
+//
+//    @Singleton
+//    @Provides
+//    fun retrofitLoadDetail(api: ApiService, networkStatus: INetworkStatus, cache: IMoviesDetailCache)
+//    : ILoadMoviesDetail = RetrofitLoadMovieDetail(api, networkStatus, cache)
 
 }

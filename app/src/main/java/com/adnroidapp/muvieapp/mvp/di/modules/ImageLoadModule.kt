@@ -7,13 +7,16 @@ import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorActor
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class ImageLoadModule {
-
-    @Provides
-    fun imageLoaderMovie(): IImageLoaderMovie<ImageView> = GlideImageLoaderActorMovies()
-
-    @Provides
-    fun imageLoaderActor(): IImageLoaderActor<ImageView> = GlideImageLoaderActorActor()
+//
+//    @Singleton
+//    @Provides
+//    fun imageLoaderMovie(): IImageLoaderMovie<ImageView> = GlideImageLoaderActorMovies()
+//
+//    @Singleton
+//    @Provides
+//    fun imageLoaderActor(): IImageLoaderActor<ImageView> = GlideImageLoaderActorActor()
 }

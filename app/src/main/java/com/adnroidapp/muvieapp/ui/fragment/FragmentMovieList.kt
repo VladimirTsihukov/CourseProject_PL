@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.R
+import com.adnroidapp.muvieapp.mvp.di.movie.MovieSubComponent
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
@@ -28,9 +29,12 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     private lateinit var recycler: RecyclerView
     private lateinit var bottomNav: BottomNavigationView
 
+    private var movieSubComponent: MovieSubComponent? = null
+
     private val presenter by moxyPresenter {
+        movieSubComponent = App.instance.initMovieSubComponent()
         PresenterMovieList().apply {
-            App.instance.appComponent.inject(this)
+            movieSubComponent?.inject(this)
         }
     }
 
@@ -73,7 +77,7 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     override fun initAdapter() {
         Log.v(ClassKey.LOG_KEY, "FragmentMovieList: init adapter")
         adapter = AdapterMoviesFilm(presenter).apply {
-            App.instance.appComponent.inject(this)
+            movieSubComponent?.inject(this)
         }
         recycler.adapter = adapter
     }
@@ -81,6 +85,11 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     override fun updateList(newMovies: List<Movie>) {
         Log.v(ClassKey.LOG_KEY, "FragmentMovieList: updateList")
         adapter.bindMovies(newMovies)
+    }
+
+    override fun release() {
+        App.instance.releaseMovieSubComponent()
+        movieSubComponent = null
     }
 
     override fun backPressed() = presenter.backPressed()

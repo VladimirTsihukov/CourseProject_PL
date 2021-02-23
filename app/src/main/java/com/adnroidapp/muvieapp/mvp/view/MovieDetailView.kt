@@ -13,4 +13,5 @@ interface MovieDetailView: MvpView  {
     fun initViewMovieDetail(movieDetail: RoomDetailMovie)
     fun updateAdapterActor(listActor: List<Cast>)
     fun invisibleLoader()
+    fun release()
 }

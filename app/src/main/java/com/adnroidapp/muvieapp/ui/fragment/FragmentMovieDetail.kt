@@ -10,13 +10,13 @@ import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
 import com.adnroidapp.muvieapp.R
+import com.adnroidapp.muvieapp.mvp.di.movieDetail.MovieDetailSubComponent
 import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
 import com.adnroidapp.muvieapp.mvp.view.MovieDetailView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterActors
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorActor
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_movie_details.*
@@ -36,17 +36,20 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
     private lateinit var listStar: List<ImageView>
     private lateinit var backPress: TextView
 
+    private var movieDetailSubComponent: MovieDetailSubComponent? = null
+
     private val loaderGlideMovie by lazy {
         GlideImageLoaderActorMovies()
     }
 
     private val presenter: PresenterMovieDetail by moxyPresenter {
         Log.v(LOG_KEY, "FragmentMovieDetail: init presenter")
+        movieDetailSubComponent = App.instance.initMovieDetailSubComponent()
 
         val movieID = arguments?.getLong(KEY_ID_MOVIE_DETAIL) ?: -1L
 
         PresenterMovieDetail(movieId = movieID).apply {
-            App.instance.appComponent.inject(this)
+            movieDetailSubComponent?.inject(this)
         }
     }
 
@@ -85,7 +88,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
     }
 
     override fun initAdapterActor() {
-        adapter = AdapterActors().apply {App.instance.appComponent.inject(this)}
+        adapter = AdapterActors().apply {movieDetailSubComponent?.inject(this)}
         recyclerView?.adapter = adapter
     }
 
@@ -113,6 +116,11 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
         view?.let {
             dataLoader.visibility = View.INVISIBLE
         }
+    }
+
+    override fun release() {
+        App.instance.releaseMovieDetailSubComponent()
+        movieDetailSubComponent = null
     }
 
     private fun setPosterIcon(poster: String) {

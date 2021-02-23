@@ -23,12 +23,12 @@ class DatabaseModule {
         DatabaseContact.DATABASE_NAME_MOVIES
     ).fallbackToDestructiveMigration().build()
 
-    @Singleton
-    @Provides
-    fun movieCache(db: DBMovies): IMoviesCache = CacheRoomMovies(db)
-
-    @Singleton
-    @Provides
-    fun movieDetailCache(db: DBMovies): IMoviesDetailCache = CacheRoomMovieDetail(db)
+//    @Singleton
+//    @Provides
+//    fun movieCache(db: DBMovies): IMoviesCache = CacheRoomMovies(db)
+//
+//    @Singleton
+//    @Provides
+//    fun movieDetailCache(db: DBMovies): IMoviesDetailCache = CacheRoomMovieDetail(db)
 
 }
