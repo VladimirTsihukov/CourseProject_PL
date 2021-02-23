@@ -1,7 +1,6 @@
 package com.adnroidapp.muvieapp.mvp.di.movieDetail.module
 
 import android.widget.ImageView
-import com.adnroidapp.muvieapp.mvp.di.movie.MovieScope
 import com.adnroidapp.muvieapp.mvp.di.movieDetail.MovieDetailScope
 import com.adnroidapp.muvieapp.mvp.model.api.ApiService
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesDetailCache
@@ -14,7 +13,6 @@ import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMovieDetail
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorActor
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class MovieDetailModule {

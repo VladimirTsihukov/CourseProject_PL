@@ -13,7 +13,6 @@ import com.adnroidapp.muvieapp.mvp.model.retrofit.RetrofitLoadMoviesList
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class MovieModule {
