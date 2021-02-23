@@ -12,7 +12,7 @@ import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderMovies
+import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -72,7 +72,9 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
 
     override fun initAdapter() {
         Log.v(ClassKey.LOG_KEY, "FragmentMovieList: init adapter")
-        adapter = AdapterMoviesFilm(presenter, GlideImageLoaderMovies())
+        adapter = AdapterMoviesFilm(presenter).apply {
+            App.instance.appComponent.inject(this)
+        }
         recycler.adapter = adapter
     }
 

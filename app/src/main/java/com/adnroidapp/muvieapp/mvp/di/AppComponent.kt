@@ -5,6 +5,8 @@ import com.adnroidapp.muvieapp.mvp.presenter.PresenterMain
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.ui.MainActivity
+import com.adnroidapp.muvieapp.ui.adapter.AdapterActors
+import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,11 +17,14 @@ import javax.inject.Singleton
         AppModule::class,
         ApiModule::class,
         DatabaseModule::class,
-        RepoModule::class]
+        RepoModule::class,
+        ImageLoadModule::class]
 )
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(presenterMain: PresenterMain)
     fun inject(presenterMovieList: PresenterMovieList)
     fun inject(presenterMovieDetail: PresenterMovieDetail)
+    fun inject(adapterActors: AdapterActors)
+    fun inject(adapterMoviesFilm: AdapterMoviesFilm)
 }

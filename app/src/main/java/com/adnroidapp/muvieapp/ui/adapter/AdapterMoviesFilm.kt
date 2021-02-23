@@ -12,14 +12,17 @@ import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
 import com.adnroidapp.muvieapp.R
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import com.adnroidapp.muvieapp.mvp.model.image.IImageLoader
+import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderActor
+import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderMovie
 import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class AdapterMoviesFilm(
-    private val presenter: PresenterDetailViewClick,
-    private val imageLoaderMovie: IImageLoader<ImageView>
-) : RecyclerView.Adapter<AdapterMoviesFilm.HolderMovies>() {
+class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick)
+    : RecyclerView.Adapter<AdapterMoviesFilm.HolderMovies>() {
+
+    @Inject
+    lateinit var imageLoaderActorMovie: IImageLoaderMovie<ImageView>
 
     private var movies = listOf<Movie>()
 
@@ -84,7 +87,7 @@ class AdapterMoviesFilm(
         }
 
         private fun setPosterIcon(poster: String) {
-            imageLoaderMovie.loadInto(poster, imageFilm)
+            imageLoaderActorMovie.loadInto(poster, imageFilm)
         }
 
         private fun setImageStars(current: Int) {

@@ -16,8 +16,8 @@ import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
 import com.adnroidapp.muvieapp.mvp.view.MovieDetailView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterActors
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActor
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderMovies
+import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorActor
+import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import moxy.MvpAppCompatFragment
@@ -37,7 +37,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
     private lateinit var backPress: TextView
 
     private val loaderGlideMovie by lazy {
-        GlideImageLoaderMovies()
+        GlideImageLoaderActorMovies()
     }
 
     private val presenter: PresenterMovieDetail by moxyPresenter {
@@ -85,7 +85,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
     }
 
     override fun initAdapterActor() {
-        adapter = AdapterActors(GlideImageLoaderActor())
+        adapter = AdapterActors().apply {App.instance.appComponent.inject(this)}
         recyclerView?.adapter = adapter
     }
 
