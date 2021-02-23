@@ -1,6 +1,8 @@
 package com.adnroidapp.muvieapp.mvp.model.api.data
 
 import android.os.Parcelable
+import com.adnroidapp.muvieapp.ClassKey
+import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -12,14 +14,11 @@ data class MoviesDetail(
 
     val overview: String,
 
-    @SerializedName("belongs_to_collection")
-    val belongsToCollection: BelongsToCollection? = null,
-
     @SerializedName("backdrop_path")
     val backdropPath: String,
 
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val ratings: Double,
 
     @SerializedName("vote_count")
     val voteCount: Long,
@@ -48,3 +47,17 @@ data class Genre(
     val id: Long,
     val name: String,
 ): Parcelable
+
+fun MoviesDetail.getMovieRoom(): RoomDetailMovie {
+    return RoomDetailMovie(
+        id = id,
+        title = title,
+        overview = overview,
+        backdrop = backdropPath,
+        ratings = ratings,
+        voteCount = voteCount.toInt(),
+        minimumAge = if (adult) 16 else 13,
+        runtime = runtime,
+        genres = genres.joinToString (", "){ it.name },
+    )
+}

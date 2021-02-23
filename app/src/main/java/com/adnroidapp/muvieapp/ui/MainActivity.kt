@@ -9,23 +9,31 @@ import com.adnroidapp.muvieapp.mvp.presenter.PresenterMain
 import moxy.MvpAppCompatActivity
 import moxy.MvpView
 import moxy.ktx.moxyPresenter
+import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MvpView {
 
-    private val navigatorHolder = App.instance.navigatorHolder
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
     private val navigator =
         SupportAppNavigator(this, supportFragmentManager, R.id.container) //осуществляет навигацию
 
     private val moxyPresenter by moxyPresenter {
         Log.v(LOG_KEY, "Create moxyPresenter")
-        PresenterMain(App.instance.router)
+        PresenterMain().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.v(LOG_KEY, "MainActivity onCreate()")
         setContentView(R.layout.activity_main)
+        Log.v(LOG_KEY, "MainActivity onCreate()")
+
+        App.instance.appComponent.inject(this)
     }
 
     override fun onResumeFragments() {

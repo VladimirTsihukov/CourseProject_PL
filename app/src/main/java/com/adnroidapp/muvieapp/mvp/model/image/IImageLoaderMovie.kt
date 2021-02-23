@@ -1,5 +1,5 @@
 package com.adnroidapp.muvieapp.mvp.model.image
 
-interface IImageLoader<T> {
+interface IImageLoaderMovie<T> {
     fun loadInto(url: String, container: T)
 }

@@ -12,7 +12,7 @@ data class MovieActors(
 
 @Parcelize
 data class Cast(
-    val id: Long,
+    val id: Long = -1,
     val name: String,
     @SerializedName("profile_path")
     val profilePath: String? = null,

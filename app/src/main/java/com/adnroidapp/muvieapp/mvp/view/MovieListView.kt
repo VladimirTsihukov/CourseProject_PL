@@ -9,4 +9,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface MovieListView: MvpView {
     fun initAdapter()
     fun updateList(newMovies: List<Movie>)
+    fun release()
 }

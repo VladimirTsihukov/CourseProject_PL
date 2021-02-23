@@ -6,12 +6,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActor
+import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderActor
+import javax.inject.Inject
 
-class AdapterActors(val imageLoader: GlideImageLoaderActor) : RecyclerView.Adapter<AdapterActors.HolderActors>() {
+class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoaderActor<ImageView>
 
     private var actors = listOf<Cast>()
 
