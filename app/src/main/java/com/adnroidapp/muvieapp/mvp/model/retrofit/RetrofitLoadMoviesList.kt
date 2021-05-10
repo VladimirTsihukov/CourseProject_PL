@@ -6,8 +6,8 @@ import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesList
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesCache
 import com.adnroidapp.muvieapp.mvp.model.newtwork.INetworkStatus
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class RetrofitLoadMoviesList(
     private val api: ApiService,

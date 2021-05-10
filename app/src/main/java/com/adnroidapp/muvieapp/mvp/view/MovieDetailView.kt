@@ -8,8 +8,7 @@ import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface MovieDetailView: MvpView  {
-    fun initView()
-    fun initAdapterActor()
+
     fun initViewMovieDetail(movieDetail: RoomDetailMovie)
     fun updateAdapterActor(listActor: List<Cast>)
     fun invisibleLoader()

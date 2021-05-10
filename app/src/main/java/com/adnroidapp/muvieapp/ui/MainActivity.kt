@@ -19,7 +19,7 @@ class MainActivity : MvpAppCompatActivity(), MvpView {
     lateinit var navigatorHolder: NavigatorHolder
 
     private val navigator =
-        SupportAppNavigator(this, supportFragmentManager, R.id.container) //осуществляет навигацию
+        SupportAppNavigator(this, supportFragmentManager, R.id.nav_host_fragment_container) //осуществляет навигацию
 
     private val moxyPresenter by moxyPresenter {
         Log.v(LOG_KEY, "Create moxyPresenter")

@@ -27,7 +27,7 @@ class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
         return HolderActors(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_actor, parent, false)
+                .inflate(R.layout.view_item_holder_actor, parent, false)
         )
     }
 
@@ -38,8 +38,8 @@ class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
     override fun getItemCount(): Int = actors.size
 
     inner class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
-        private val imageActor: ImageView = item.findViewById(R.id.holder_actor_image)
-        private val nameActors: TextView = item.findViewById(R.id.holder_actor_name)
+        private val imageActor: ImageView = item.findViewById(R.id.img_holder_actor_image)
+        private val nameActors: TextView = item.findViewById(R.id.tv_holder_actor_name)
 
         fun onBindActor(actor: Cast) {
             nameActors.text = actor.name

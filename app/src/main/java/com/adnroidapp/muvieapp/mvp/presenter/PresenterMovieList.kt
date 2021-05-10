@@ -1,5 +1,6 @@
 package com.adnroidapp.muvieapp.mvp.presenter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
@@ -9,7 +10,7 @@ import com.adnroidapp.muvieapp.mvp.model.retrofit.ILoadMoviesList
 import com.adnroidapp.muvieapp.mvp.navigator.Screen
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick
-import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.Scheduler
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -43,6 +44,7 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
         loadMoviesType(typeMovie)
     }
 
+    @SuppressLint("CheckResult")
     private fun loadMoviesType(typeMovie: EnumTypeMovie) {
         if (typeMovie.name == EnumTypeMovie.FAVORITE.name) {
             loadMoviesFavorite()
@@ -59,6 +61,7 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun loadMoviesFavorite() {
         cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
             .subscribe({
@@ -72,6 +75,7 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
         router.navigateTo(Screen.MovieDetail(movieId))
     }
 
+    @SuppressLint("CheckResult")
     override fun clickLikeIcon(iconLike: Boolean, movies: Movie) {
         if (iconLike) {
             cache.deleteMovieLike(movies.id).observeOn(mainThreadScheduler)

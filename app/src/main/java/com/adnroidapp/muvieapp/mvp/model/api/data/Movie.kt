@@ -20,7 +20,7 @@ data class Movie(
     val backdropPath: String,
 
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val ratings: Double,
 
     @SerializedName("vote_count")
     val voteCount: Long,

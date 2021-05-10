@@ -5,9 +5,9 @@ import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesCache
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomLikeMovie
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomMovie
 import com.adnroidapp.muvieapp.mvp.model.entity.room.db.DBMovies
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
 
@@ -20,7 +20,7 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
                     overview = it.overview,
                     posterPath = it.posterPath,
                     backdropPath = it.backdropPath,
-                    voteAverage = it.voteAverage,
+                    ratings = it.voteAverage,
                     voteCount = it.voteCount,
                     adult = it.adult,
                     likeMovies = it.likeMovies
@@ -36,7 +36,7 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
                 overview = it.overview,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
-                voteAverage = it.voteAverage,
+                voteAverage = it.ratings,
                 voteCount = it.voteCount,
                 adult = it.adult,
                 likeMovies = it.likeMovies,
@@ -58,7 +58,7 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
                 overview = it.overview,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
-                voteAverage = it.voteAverage,
+                ratings = it.voteAverage,
                 voteCount = it.voteCount,
                 adult = it.adult,
                 likeMovies = it.likeMovies
@@ -74,7 +74,7 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
                 overview = it.overview,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
-                voteAverage = it.voteAverage,
+                voteAverage = it.ratings,
                 voteCount = it.voteCount,
                 adult = it.adult,
                 likeMovies = it.likeMovies

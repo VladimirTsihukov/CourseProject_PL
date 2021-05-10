@@ -1,8 +1,9 @@
 package com.adnroidapp.muvieapp.mvp.model.cache
 
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Completable
+import io.reactivex.Single
+
 
 interface IMoviesCache {
     fun getCacheMoviesCategory(moviePopular: Boolean): Single<List<Movie>>

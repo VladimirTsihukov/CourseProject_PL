@@ -16,7 +16,7 @@ data class RoomDetailMovie(
     val overview: String,
     val backdrop: String,
     val ratings: Double,
-    val voteCount: Int,
+    val numberOfRatings: Int,
     val minimumAge: Int,
     val runtime: Long = -1,
     val genres: String = "",

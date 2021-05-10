@@ -4,7 +4,7 @@ import com.adnroidapp.muvieapp.ClassKey.QUERY_PARAM_MOVIE_ID_COR
 import com.adnroidapp.muvieapp.mvp.model.api.data.MovieActors
 import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesDetail
 import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesList
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 

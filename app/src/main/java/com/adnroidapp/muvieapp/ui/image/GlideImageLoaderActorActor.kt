@@ -9,7 +9,7 @@ class GlideImageLoaderActorActor: IImageLoaderActor<ImageView> {
     override fun loadInto(url: String, container: ImageView) {
         Glide.with(container.context)
             .load(url)
-            .error(R.drawable.placeholder)
+            .error(R.drawable.ic_placeholder_actor)
             .into(container)
     }
 }

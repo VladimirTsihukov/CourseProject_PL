@@ -1,11 +1,9 @@
 package com.adnroidapp.muvieapp.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
-import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.R
 import com.adnroidapp.muvieapp.mvp.di.movie.MovieSubComponent
 import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
@@ -41,7 +39,7 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBottomNavigation()
-        Log.v(ClassKey.LOG_KEY, "FragmentMovieList: onViewCreated()")
+
         bottomNav.visibility = View.VISIBLE
         recycler = view.findViewById(R.id.res_view_move_list)
     }
@@ -72,7 +70,6 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     }
 
     override fun initAdapter() {
-        Log.v(ClassKey.LOG_KEY, "FragmentMovieList: init adapter")
         adapter = AdapterMoviesFilm(presenter).apply {
             movieSubComponent?.inject(this)
         }
@@ -80,7 +77,6 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     }
 
     override fun updateList(newMovies: List<Movie>) {
-        Log.v(ClassKey.LOG_KEY, "FragmentMovieList: updateList")
         adapter.bindMovies(newMovies)
     }
 

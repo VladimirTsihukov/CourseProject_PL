@@ -8,7 +8,7 @@ import com.adnroidapp.muvieapp.mvp.model.api.data.MoviesDetail
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesDetailCache
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
 import com.adnroidapp.muvieapp.mvp.model.entity.room.db.DBMovies
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Single
 
 class CacheRoomMovieDetail(val db: DBMovies) : IMoviesDetailCache {
 
@@ -25,7 +25,7 @@ class CacheRoomMovieDetail(val db: DBMovies) : IMoviesDetailCache {
                 overview = movie.overview,
                 backdrop = movie.backdropPath,
                 ratings = movie.ratings,
-                voteCount = movie.voteCount.toInt(),
+                numberOfRatings = movie.voteCount.toInt(),
                 minimumAge = if (movie.adult) 16 else 13,
                 runtime = movie.runtime,
                 genres = movie.genres.joinToString (", "){ it.name },

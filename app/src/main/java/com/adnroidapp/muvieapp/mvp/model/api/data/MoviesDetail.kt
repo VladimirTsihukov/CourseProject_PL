@@ -1,7 +1,6 @@
 package com.adnroidapp.muvieapp.mvp.model.api.data
 
 import android.os.Parcelable
-import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -55,7 +54,7 @@ fun MoviesDetail.getMovieRoom(): RoomDetailMovie {
         overview = overview,
         backdrop = backdropPath,
         ratings = ratings,
-        voteCount = voteCount.toInt(),
+        numberOfRatings = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,
         runtime = runtime,
         genres = genres.joinToString (", "){ it.name },
