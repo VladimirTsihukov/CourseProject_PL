@@ -12,13 +12,13 @@ import com.adnroidapp.muvieapp.mvp.di.movieDetail.MovieDetailSubComponent
 class App : Application() {
 
     lateinit var appComponent: AppComponent
-    private set
+        private set
 
     var movieSubComponent: MovieSubComponent? = null
-    private set
+        private set
 
     var movieDetailSubComponent: MovieDetailSubComponent? = null
-    private set
+        private set
 
     companion object {
         lateinit var instance: App

@@ -31,20 +31,17 @@ class MainActivity : MvpAppCompatActivity(), MvpView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.v(LOG_KEY, "MainActivity onCreate()")
 
         App.instance.appComponent.inject(this)
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        Log.v(LOG_KEY, "MainActivity onResumeFragments()")
         navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
-        Log.v(LOG_KEY, "MainActivity onPause()")
         navigatorHolder.removeNavigator()
     }
 

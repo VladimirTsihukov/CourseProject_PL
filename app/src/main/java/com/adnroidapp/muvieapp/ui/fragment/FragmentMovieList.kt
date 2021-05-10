@@ -8,12 +8,12 @@ import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.R
 import com.adnroidapp.muvieapp.mvp.di.movie.MovieSubComponent
+import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
-import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -52,18 +52,15 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
             bottomNav.setOnNavigationItemSelectedListener { item ->
                 when(item.itemId) {
                     R.id.nav_popular -> {
-                        presenter.loadMoviesPopular()
-                        presenter.movieFavorite = false
+                        presenter.loadMovies(EnumTypeMovie.POPULAR)
                         true
                     }
                     R.id.nav_top -> {
-                        presenter.loadMoviesTopRate()
-                        presenter.movieFavorite = false
+                        presenter.loadMovies(EnumTypeMovie.TOP)
                         true
                     }
                     R.id.nav_favorite -> {
-                        presenter.loadMoviesFavorite()
-                        presenter.movieFavorite = true
+                        presenter.loadMovies(EnumTypeMovie.FAVORITE)
                         true
                     }
                     else -> {

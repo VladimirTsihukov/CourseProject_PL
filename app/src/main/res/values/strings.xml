@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">MuvieApp</string>
-    <string name="result_null">Result null</string>
+    <string name="app_name">MovieApp</string>
 
     <string name="back">Back</string>
     <string name="str_film_name">Avengers: End Game</string>
@@ -11,7 +10,6 @@
     <string name="str_cast">Cast</string>
     <string name="str_text_story_line">After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.</string>
     <string name="movies_list">Movies list</string>
-    <string name="film_duration">137 min</string>
     <string name="data_loading">Data loading…</string>
     <string name="fragment_age_category">%s+</string>
     <string name="fragment_reviews">%s Отзывы</string>

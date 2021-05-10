@@ -2,6 +2,7 @@ package com.adnroidapp.muvieapp.mvp.presenter
 
 import android.util.Log
 import com.adnroidapp.muvieapp.ClassKey
+import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesCache
 import com.adnroidapp.muvieapp.mvp.model.retrofit.ILoadMoviesList
@@ -15,7 +16,7 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
-class PresenterMovieList: MvpPresenter<MovieListView>(), PresenterDetailViewClick {
+class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewClick {
 
     @Inject
     lateinit var cache: IMoviesCache
@@ -29,92 +30,66 @@ class PresenterMovieList: MvpPresenter<MovieListView>(), PresenterDetailViewClic
     @Inject
     lateinit var mainThreadScheduler: Scheduler
 
-    var movieFavorite = false
+    private var flagMovieFavorite = false
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        Log.v(ClassKey.LOG_KEY, "PresenterMovieList: onFirstViewAttach()")
         viewState.initAdapter()
-        loadMoviesPopular()
+        loadMovies(EnumTypeMovie.POPULAR)
     }
 
-    fun loadMoviesPopular() {
-        Log.v(ClassKey.LOG_KEY, "PresenterMovieList: loadMoviesPopular()")
-        retrofitLoadMovies.retrofitLoadMoviesPopular()
-            .observeOn(mainThreadScheduler)
-            .subscribe({ movieList ->
-                if (movieList != null) {
-                    Log.v(
-                        ClassKey.LOG_KEY,
-                        "PresenterMovieList: loadMoviesPopular list.size = ${movieList.size}"
-                    )
-                    viewState.updateList(movieList)
-                }
-            }, {
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieList: error in loadMoviesPopular: ${it.message}"
-                )
-            })
+    fun loadMovies(typeMovie: EnumTypeMovie) {
+        flagMovieFavorite = typeMovie.name == EnumTypeMovie.FAVORITE.name
+        loadMoviesType(typeMovie)
     }
 
-    fun loadMoviesTopRate() {
-        retrofitLoadMovies.retrofitLoadMoviesTopRate()
-            .observeOn(mainThreadScheduler)
-            .subscribe({ movieList ->
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieList: loadMoviesTopRate list.size = ${movieList.size}"
-                )
-                viewState.updateList(movieList)
+    private fun loadMoviesType(typeMovie: EnumTypeMovie) {
+        if (typeMovie.name == EnumTypeMovie.FAVORITE.name) {
+            loadMoviesFavorite()
+        } else {
+            retrofitLoadMovies.loadMovieInServer(typeMovie)
+                .observeOn(mainThreadScheduler)
+                .subscribe({ movieList ->
+                    if (movieList != null) {
+                        viewState.updateList(movieList)
+                    }
+                }, {
+                    Log.e(ClassKey.LOG_KEY, "Error in loadMoviesType(): ${it.message}")
+                })
+        }
+    }
+
+    private fun loadMoviesFavorite() {
+        cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
+            .subscribe({
+                viewState.updateList(it)
             }, {
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieList: error in loadMoviesTopRate: ${it.message}"
-                )
+                Log.e(ClassKey.LOG_KEY, "Error in loadMoviesFavorite(): ${it.message}")
             })
     }
 
     override fun clickMovie(movieId: Long) {
-        Log.v(ClassKey.LOG_KEY, "PresenterMovieList: clickMovie go to FragmentMovieDetail")
         router.navigateTo(Screen.MovieDetail(movieId))
-    }
-
-    fun loadMoviesFavorite() {
-        Log.v(ClassKey.LOG_KEY, "PresenterMovieList: loadMoviesFavorite()")
-        cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
-            .subscribe({
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieList: loadMoviesFavorite list.size = ${it.size}"
-                )
-                viewState.updateList(it)
-            }, {
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieList: error in loadMoviesFavorite: ${it.message}"
-                )
-            })
     }
 
     override fun clickLikeIcon(iconLike: Boolean, movies: Movie) {
         if (iconLike) {
             cache.deleteMovieLike(movies.id).observeOn(mainThreadScheduler)
                 .subscribe({
-                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: delete like movie result = $it")
-                    if (movieFavorite) loadMoviesFavorite()
+                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: delete like movie")
+                    if (flagMovieFavorite) loadMoviesFavorite()
                 }, {
-                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: error deleteMovieLike: ${it.message}")
+                    Log.v(ClassKey.LOG_KEY, "Error in deleteMovieLike(): ${it.message}")
                 })
         } else {
-            cache.putCacheMoviesLike(movies)
-                .observeOn(mainThreadScheduler)
-                .subscribe({
-                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: put like movie result = $it")
-                }, {
-                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: error putCacheMoviesLike: ${it.message}")
-                })
+            getMovieLikeInDB(movies)
         }
+    }
+
+    private fun getMovieLikeInDB(movies: Movie) {
+        cache.putCacheMoviesLike(movies)
+            .observeOn(mainThreadScheduler)
+            .subscribe()
     }
 
     fun backPressed(): Boolean {

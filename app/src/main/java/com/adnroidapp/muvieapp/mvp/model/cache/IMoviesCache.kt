@@ -7,10 +7,10 @@ import io.reactivex.rxjava3.core.Single
 interface IMoviesCache {
     fun getCacheMoviesCategory(moviePopular: Boolean): Single<List<Movie>>
     fun putCacheMovies(movies: List<Movie>, moviesPopular: Boolean)
-    fun deleteMoviesCategory(moviePopular: Boolean): Completable
+    fun deleteMoviesCategory(moviePopular: Boolean)
 
     fun getCacheMoviesLike(): Single<List<Movie>>
-    fun putCacheMoviesLike(movies: Movie) : Single<Boolean>
+    fun putCacheMoviesLike(movies: Movie): Completable
     fun getMovieLikeID(): List<Long>
-    fun deleteMovieLike(id : Long) : Single<Boolean>
+    fun deleteMovieLike(id: Long): Completable
 }

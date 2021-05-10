@@ -1,7 +1,5 @@
 package com.adnroidapp.muvieapp.mvp.model.cache.roomcache
 
-import android.util.Log
-import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesCache
 import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomLikeMovie
@@ -31,7 +29,6 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
         }
 
     override fun putCacheMovies(movies: List<Movie>, moviesPopular: Boolean) {
-        Log.v(ClassKey.LOG_KEY, "CacheRoomMovies putCacheMovies(movies.size = ${movies.size})")
         val listMovies = movies.map {
             RoomMovie(
                 id = it.id,
@@ -49,10 +46,9 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
         db.movies().insertMovies(listMovies)
     }
 
-    override fun deleteMoviesCategory(moviePopular: Boolean): Completable =
-        Completable.fromCallable {
-            db.movies().deleteMoviesCategory(moviePopular)
-        }
+    override fun deleteMoviesCategory(moviePopular: Boolean) {
+        db.movies().deleteMoviesCategory(moviePopular)
+    }
 
     override fun getCacheMoviesLike(): Single<List<Movie>> = Single.fromCallable {
         db.moviesLike().getMoviesLike().map {
@@ -70,7 +66,7 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
         }
     }.subscribeOn(Schedulers.io())
 
-    override fun putCacheMoviesLike(movies: Movie): Single<Boolean>  = Single.fromCallable {
+    override fun putCacheMoviesLike(movies: Movie): Completable = Completable.fromCallable {
         db.moviesLike().insetMoviesLike(movies.let {
             RoomLikeMovie(
                 id = it.id,
@@ -84,15 +80,12 @@ class CacheRoomMovies(private val db: DBMovies) : IMoviesCache {
                 likeMovies = it.likeMovies
             )
         })
-        Log.v(ClassKey.LOG_KEY, "CacheRoomMovies putCacheMoviesLike()")
-        true
     }.subscribeOn(Schedulers.io())
 
     override fun getMovieLikeID(): List<Long> = db.moviesLike().getAllID()
 
 
-    override fun deleteMovieLike(id: Long): Single<Boolean> = Single.fromCallable {
+    override fun deleteMovieLike(id: Long): Completable = Completable.fromCallable {
         db.moviesLike().deleteMoviesLike(id)
-        true
     }.subscribeOn(Schedulers.io())
 }
