@@ -1,0 +1,32 @@
+package com.adnroidapp.muvieapp.di.movie.module
+
+import android.widget.ImageView
+import com.adnroidapp.muvieapp.di.movie.MovieScope
+import com.adnroidapp.muvieapp.model.api.ApiService
+import com.adnroidapp.muvieapp.model.cache.IMoviesCache
+import com.adnroidapp.muvieapp.model.cache.roomcache.CacheRoomMovies
+import com.adnroidapp.muvieapp.model.entity.room.db.DBMovies
+import com.adnroidapp.muvieapp.model.image.IImageLoaderMovie
+import com.adnroidapp.muvieapp.model.newtwork.INetworkStatus
+import com.adnroidapp.muvieapp.model.retrofit.ILoadMoviesList
+import com.adnroidapp.muvieapp.model.retrofit.RetrofitLoadMoviesList
+import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
+import dagger.Module
+import dagger.Provides
+
+@Module
+class MovieModule {
+
+    @MovieScope
+    @Provides
+    fun imageLoaderMovie(): IImageLoaderMovie<ImageView> = GlideImageLoaderActorMovies()
+
+    @MovieScope
+    @Provides
+    fun retrofitLoaderMovies(api: ApiService, networkStatus: INetworkStatus, cache: IMoviesCache)
+            : ILoadMoviesList = RetrofitLoadMoviesList(api, networkStatus, cache)
+
+    @MovieScope
+    @Provides
+    fun movieCache(db: DBMovies): IMoviesCache = CacheRoomMovies(db)
+}

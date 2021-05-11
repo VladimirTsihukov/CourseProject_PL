@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderMovie
-import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick
+import com.adnroidapp.muvieapp.model.api.data.Movie
+import com.adnroidapp.muvieapp.model.image.IImageLoaderMovie
+import com.adnroidapp.muvieapp.presenter.view.preenterView.ViewPresenterDetailClick
 import kotlinx.android.synthetic.main.layout_stars_holder.view.*
 import kotlinx.android.synthetic.main.view_item_holder_movies.view.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick) :
+class AdapterMoviesFilm(private val presenterPresenterDetail: ViewPresenterDetailClick) :
     RecyclerView.Adapter<AdapterMoviesFilm.HolderMovies>() {
 
     @Inject
@@ -46,12 +46,12 @@ class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick) :
 
         init {
             iconLike.setOnClickListener {
-                presenter.clickLikeIcon(movies[adapterPosition].likeMovies, movies[adapterPosition])
+                presenterPresenterDetail.clickLikeIcon(movies[adapterPosition].likeMovies, movies[adapterPosition])
                 movies[adapterPosition].likeMovies = !movies[adapterPosition].likeMovies
                 notifyDataSetChanged()
             }
             imageFilm.setOnClickListener {
-                presenter.clickMovie(movies[adapterPosition].id)
+                presenterPresenterDetail.clickMovie(movies[adapterPosition].id)
             }
         }
 

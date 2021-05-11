@@ -5,11 +5,11 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.di.movie.MovieSubComponent
-import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
-import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieList
-import com.adnroidapp.muvieapp.mvp.view.MovieListView
+import com.adnroidapp.muvieapp.di.movie.MovieSubComponent
+import com.adnroidapp.muvieapp.model.EnumTypeMovie
+import com.adnroidapp.muvieapp.model.api.data.Movie
+import com.adnroidapp.muvieapp.presenter.PresenterMovieListPresenterDetail
+import com.adnroidapp.muvieapp.presenter.view.ViewMovieList
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterMoviesFilm
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,7 +17,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), BackButtonListener,
-    MovieListView {
+    ViewMovieList {
 
     private lateinit var adapter: AdapterMoviesFilm
     private lateinit var recycler: RecyclerView
@@ -27,7 +27,7 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
 
     private val presenter by moxyPresenter {
         movieSubComponent = App.instance.initMovieSubComponent()
-        PresenterMovieList().apply {
+        PresenterMovieListPresenterDetail().apply {
             movieSubComponent?.inject(this)
         }
     }

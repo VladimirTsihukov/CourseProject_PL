@@ -7,11 +7,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.di.movieDetail.MovieDetailSubComponent
-import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
-import com.adnroidapp.muvieapp.mvp.model.entity.room.data.RoomDetailMovie
-import com.adnroidapp.muvieapp.mvp.presenter.PresenterMovieDetail
-import com.adnroidapp.muvieapp.mvp.view.MovieDetailView
+import com.adnroidapp.muvieapp.di.movieDetail.MovieDetailSubComponent
+import com.adnroidapp.muvieapp.model.api.data.Cast
+import com.adnroidapp.muvieapp.model.entity.room.data.RoomDetailMovie
+import com.adnroidapp.muvieapp.presenter.PresenterMovieDetail
+import com.adnroidapp.muvieapp.presenter.view.ViewMovieDetail
 import com.adnroidapp.muvieapp.ui.BackButtonListener
 import com.adnroidapp.muvieapp.ui.adapter.AdapterActors
 import com.adnroidapp.muvieapp.ui.image.GlideImageLoaderActorMovies
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details),
-    MovieDetailView, BackButtonListener {
+    ViewMovieDetail, BackButtonListener {
 
     private var movieDetailSubComponent: MovieDetailSubComponent? = null
 

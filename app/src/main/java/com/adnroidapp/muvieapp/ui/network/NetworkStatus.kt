@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
-import com.adnroidapp.muvieapp.mvp.model.newtwork.INetworkStatus
+import com.adnroidapp.muvieapp.model.newtwork.INetworkStatus
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
