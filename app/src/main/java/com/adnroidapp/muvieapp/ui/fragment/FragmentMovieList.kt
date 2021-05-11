@@ -32,8 +32,16 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
         }
     }
 
+//    private lateinit var presenter: PresenterMovieListPresenterDetail
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        presenter = PresenterMovieListPresenterDetail().apply {
+//            movieSubComponent = App.instance.initMovieSubComponent()
+//            movieSubComponent?.inject(this)
+//        }
+
         initBottomNavigation()
 
         bottomNav.visibility = View.VISIBLE
