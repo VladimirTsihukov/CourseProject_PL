@@ -49,10 +49,11 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     //Moxy
-    implementation "com.github.moxy-community:moxy:2.1.2"
-    kapt "com.github.moxy-community:moxy-compiler:2.1.2"
-    implementation "com.github.moxy-community:moxy-ktx:2.1.2"
-    implementation "com.github.moxy-community:moxy-androidx:2.1.2"
+    def moxyVersion = "2.1.2"
+    implementation "com.github.moxy-community:moxy:$moxyVersion"
+    kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-ktx:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-androidx:$moxyVersion"
 
     implementation 'ru.terrakok.cicerone:cicerone:5.1.1'
 
@@ -61,21 +62,24 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    def retrofitVersion = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    def glideVersion = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     //Room
-    def room_version = "2.2.6"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    def roomVersion = "2.2.6"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.24'
-    kapt 'com.google.dagger:dagger-compiler:2.24'
+    def daggerVersion = "2.24"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

@@ -6,11 +6,13 @@ import com.adnroidapp.muvieapp.ClassKey
 import com.adnroidapp.muvieapp.mvp.model.EnumTypeMovie
 import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
 import com.adnroidapp.muvieapp.mvp.model.cache.IMoviesCache
+import com.adnroidapp.muvieapp.mvp.model.newtwork.INetworkStatus
 import com.adnroidapp.muvieapp.mvp.model.retrofit.ILoadMoviesList
 import com.adnroidapp.muvieapp.mvp.navigator.Screen
 import com.adnroidapp.muvieapp.mvp.view.MovieListView
 import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick
 import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -31,7 +33,11 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
     @Inject
     lateinit var mainThreadScheduler: Scheduler
 
+    @Inject
+    lateinit var networkStatus: INetworkStatus
+
     private var flagMovieFavorite = false
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -80,7 +86,6 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
         if (iconLike) {
             cache.deleteMovieLike(movies.id).observeOn(mainThreadScheduler)
                 .subscribe({
-                    Log.v(ClassKey.LOG_KEY, "PresenterMovieList: delete like movie")
                     if (flagMovieFavorite) loadMoviesFavorite()
                 }, {
                     Log.v(ClassKey.LOG_KEY, "Error in deleteMovieLike(): ${it.message}")
@@ -100,5 +105,10 @@ class PresenterMovieList : MvpPresenter<MovieListView>(), PresenterDetailViewCli
         Log.v(ClassKey.LOG_KEY, "PresenterMovieList: backPressed()")
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.clear()
     }
 }

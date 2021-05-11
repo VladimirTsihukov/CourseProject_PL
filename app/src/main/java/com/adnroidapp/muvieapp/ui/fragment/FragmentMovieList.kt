@@ -19,10 +19,6 @@ import moxy.ktx.moxyPresenter
 class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), BackButtonListener,
     MovieListView {
 
-    companion object {
-        fun newInstance() = FragmentMovieList()
-    }
-
     private lateinit var adapter: AdapterMoviesFilm
     private lateinit var recycler: RecyclerView
     private lateinit var bottomNav: BottomNavigationView
@@ -86,4 +82,8 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
     }
 
     override fun backPressed() = presenter.backPressed()
+
+    companion object {
+        fun newInstance() = FragmentMovieList()
+    }
 }

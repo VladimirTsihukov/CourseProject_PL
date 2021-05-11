@@ -3,7 +3,7 @@ package com.adnroidapp.muvieapp.mvp.di.modules
 import com.adnroidapp.muvieapp.App
 import com.adnroidapp.muvieapp.mvp.model.api.ApiService
 import com.adnroidapp.muvieapp.mvp.model.newtwork.INetworkStatus
-import com.adnroidapp.muvieapp.ui.network.AndroidNetworkStatus
+import com.adnroidapp.muvieapp.ui.network.NetworkStatus
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -81,5 +81,5 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun networkStatus(app: App): INetworkStatus = AndroidNetworkStatus(app)
+    fun networkStatus(app: App): INetworkStatus = NetworkStatus(app)
 }
