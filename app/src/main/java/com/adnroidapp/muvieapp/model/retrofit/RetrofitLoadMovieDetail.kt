@@ -1,7 +1,5 @@
 package com.adnroidapp.muvieapp.model.retrofit
 
-import android.util.Log
-import com.adnroidapp.muvieapp.model.ClassKey
 import com.adnroidapp.muvieapp.model.api.ApiService
 import com.adnroidapp.muvieapp.model.api.data.Cast
 import com.adnroidapp.muvieapp.model.api.data.getMovieRoom
@@ -34,7 +32,6 @@ class RetrofitLoadMovieDetail(
         networkStatus.isOnlineSingle().flatMap { online ->
             if (online) {
                 api.getMovieActors(id).map {
-                    Log.v(ClassKey.LOG_KEY, "Load retrofitLoadMovieActors actor.size = ${it.cast.size}")
                     cache.putMoviesActors(id, it.cast)
                     it.cast
                 }

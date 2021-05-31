@@ -3,7 +3,9 @@ package com.adnroidapp.muvieapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.muvieapp.R
 import com.adnroidapp.muvieapp.model.api.data.Movie
@@ -30,17 +32,19 @@ class AdapterMoviesFilm(private val presenterPresenterDetail: ViewPresenterDetai
     }
 
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.alpha)
         holder.onBind(movies[position])
     }
 
     override fun getItemCount(): Int = movies.size
 
     fun bindMovies(newMovies: List<Movie>) {
+        val diffUtilResult = DiffUtil.calculateDiff(DiffUtilMovie(oldList = movies, newList = newMovies))
+        diffUtilResult.dispatchUpdatesTo(this)
         movies = newMovies
-        notifyDataSetChanged()
     }
 
-    inner class HolderMovies(val item: View) : RecyclerView.ViewHolder(item) {
+    inner class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
         private val imageFilm: ImageView = item.findViewById(R.id.img_holder_film)
         private val iconLike: ImageView = item.findViewById(R.id.img_holder_like)
 
@@ -48,7 +52,7 @@ class AdapterMoviesFilm(private val presenterPresenterDetail: ViewPresenterDetai
             iconLike.setOnClickListener {
                 presenterPresenterDetail.clickLikeIcon(movies[adapterPosition].likeMovies, movies[adapterPosition])
                 movies[adapterPosition].likeMovies = !movies[adapterPosition].likeMovies
-                notifyDataSetChanged()
+                notifyItemChanged(adapterPosition)
             }
             imageFilm.setOnClickListener {
                 presenterPresenterDetail.clickMovie(movies[adapterPosition].id)
@@ -61,12 +65,15 @@ class AdapterMoviesFilm(private val presenterPresenterDetail: ViewPresenterDetai
                     context.resources.getString(R.string.fragment_reviews).let {
                         String.format(it, "${movie.voteCount}")
                     }
+                tv_holder_age_category.visibility = View.VISIBLE
                 tv_holder_age_category.text =
                     context.getString(R.string.fragment_age_category).let {
                         String.format(it, "${if (movie.adult) 16 else 13}")
                     }
                 tv_holder_film_name.text = movie.title
+                img_mask.clipToOutline = true
             }
+            imageFilm.clipToOutline = true
             setPosterIcon(movie.posterPath)
             setImageStars((movie.ratings / 2).roundToInt())
             iconLike.setImageResource(

@@ -43,9 +43,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
         }
     }
 
-    private val recyclerView: RecyclerView? by lazy {
-        view?.findViewById(R.id.rec_view_actors)
-    }
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterActors
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +54,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
 
     private fun initView(view: View) {
         activity?.bottom_navigation?.visibility = View.GONE
+        recyclerView = view.findViewById(R.id.rec_view_actors)
 
         view.tv_back.setOnClickListener {
             presenter.backPressed()
@@ -64,7 +63,7 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
 
     private fun initAdapterActor() {
         adapter = AdapterActors().apply { movieDetailSubComponent?.inject(this) }
-        recyclerView?.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     override fun initViewMovieDetail(movieDetail: RoomDetailMovie) {

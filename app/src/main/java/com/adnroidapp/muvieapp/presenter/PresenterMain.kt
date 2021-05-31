@@ -44,6 +44,6 @@ class PresenterMain : MvpPresenter<ViewMain>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable.clear()
+        disposable.dispose()
     }
 }

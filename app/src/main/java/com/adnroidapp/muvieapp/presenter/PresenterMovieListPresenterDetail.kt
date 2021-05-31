@@ -1,7 +1,7 @@
 package com.adnroidapp.muvieapp.presenter
 
-import android.annotation.SuppressLint
 import android.util.Log
+import com.adnroidapp.muvieapp.model.AppState
 import com.adnroidapp.muvieapp.model.ClassKey
 import com.adnroidapp.muvieapp.model.EnumTypeMovie
 import com.adnroidapp.muvieapp.model.api.data.Movie
@@ -50,46 +50,48 @@ class PresenterMovieListPresenterDetail : MvpPresenter<ViewMovieList>(), ViewPre
         loadMoviesType(typeMovie)
     }
 
-    @SuppressLint("CheckResult")
+
     private fun loadMoviesType(typeMovie: EnumTypeMovie) {
         if (typeMovie.name == EnumTypeMovie.FAVORITE.name) {
             loadMoviesFavorite()
         } else {
-            retrofitLoadMovies.loadMovieInServer(typeMovie)
+            disposable.add(retrofitLoadMovies.loadMovieInServer(typeMovie)
                 .observeOn(mainThreadScheduler)
                 .subscribe({ movieList ->
                     if (movieList != null) {
-                        viewState.updateList(movieList)
+                        viewState.getResponse(AppState.Success(movieList))
                     }
                 }, {
+                    viewState.getResponse(AppState.Error(it))
                     Log.e(ClassKey.LOG_KEY, "Error in loadMoviesType(): ${it.message}")
                 })
+            )
         }
     }
 
-    @SuppressLint("CheckResult")
     private fun loadMoviesFavorite() {
-        cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
+        disposable.add(cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
             .subscribe({
-                viewState.updateList(it)
+                viewState.getResponse(AppState.Success(it))
             }, {
+                viewState.getResponse(AppState.Error(it))
                 Log.e(ClassKey.LOG_KEY, "Error in loadMoviesFavorite(): ${it.message}")
-            })
+            }))
     }
 
     override fun clickMovie(movieId: Long) {
         router.navigateTo(Screen.MovieDetail(movieId))
     }
 
-    @SuppressLint("CheckResult")
     override fun clickLikeIcon(iconLike: Boolean, movies: Movie) {
         if (iconLike) {
-            cache.deleteMovieLike(movies.id).observeOn(mainThreadScheduler)
+            disposable.add(cache.deleteMovieLike(movies.id).observeOn(mainThreadScheduler)
                 .subscribe({
                     if (flagMovieFavorite) loadMoviesFavorite()
                 }, {
+                    viewState.getResponse(AppState.Error(it))
                     Log.v(ClassKey.LOG_KEY, "Error in deleteMovieLike(): ${it.message}")
-                })
+                }))
         } else {
             getMovieLikeInDB(movies)
         }
@@ -102,13 +104,12 @@ class PresenterMovieListPresenterDetail : MvpPresenter<ViewMovieList>(), ViewPre
     }
 
     fun backPressed(): Boolean {
-        Log.v(ClassKey.LOG_KEY, "PresenterMovieList: backPressed()")
         router.exit()
         return true
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable.clear()
+        disposable.dispose()
     }
 }

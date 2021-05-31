@@ -3,6 +3,7 @@ package com.adnroidapp.muvieapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,7 @@ class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
     }
 
     override fun onBindViewHolder(holder: HolderActors, position: Int) {
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.alpha)
         holder.onBindActor(actors[position])
     }
 

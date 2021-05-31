@@ -1,11 +1,11 @@
 package com.adnroidapp.muvieapp.presenter
 
-import android.annotation.SuppressLint
 import android.util.Log
 import com.adnroidapp.muvieapp.model.ClassKey
 import com.adnroidapp.muvieapp.model.retrofit.ILoadMoviesDetail
 import com.adnroidapp.muvieapp.presenter.view.ViewMovieDetail
 import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -23,52 +23,39 @@ class PresenterMovieDetail(val movieId: Long) : MvpPresenter<ViewMovieDetail>() 
     @Inject
     lateinit var mainThreadScheduler: Scheduler
 
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         loadMovieDetail()
         loadMovieActors()
     }
 
-    @SuppressLint("CheckResult")
     private fun loadMovieDetail() {
-        retrofitLoadDetail.retrofitLoadMoviesDetail(movieId)
+        disposable.add(retrofitLoadDetail.retrofitLoadMoviesDetail(movieId)
             .observeOn(mainThreadScheduler)
             .subscribe({ movieDetail ->
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieDetail: loadMovieDetail movie name = ${movieDetail.title}"
-                )
                 viewState.initViewMovieDetail(movieDetail)
                 viewState.invisibleLoader()
             }, { error ->
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieDetail: error in loadMovieDetail: ${error.message}"
-                )
-            })
+                Log.e(ClassKey.LOG_KEY, "Error in loadMovieDetail(): ${error.message}")
+            }))
     }
 
-    @SuppressLint("CheckResult")
     private fun loadMovieActors() {
-        retrofitLoadDetail.retrofitLoadMovieActors(movieId)
+        disposable.add(retrofitLoadDetail.retrofitLoadMovieActors(movieId)
             .observeOn(mainThreadScheduler)
             .subscribe({ cast ->
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieDetail: loadMovieActors actors.size = ${cast.size}"
-                )
                 viewState.updateAdapterActor(cast)
                 viewState.invisibleLoader()
             }, { error ->
-                Log.v(
-                    ClassKey.LOG_KEY,
-                    "PresenterMovieDetail: error in loadMovieActors: ${error.message}"
-                )
-            })
+                Log.e(ClassKey.LOG_KEY, "Error in loadMovieActors(): ${error.message}")
+            }))
     }
 
     fun backPressed(): Boolean {
         router.exit()
+        disposable.dispose()
         return true
     }
 }

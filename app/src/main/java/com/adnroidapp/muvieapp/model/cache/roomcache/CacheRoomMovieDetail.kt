@@ -1,7 +1,5 @@
 package com.adnroidapp.muvieapp.model.cache.roomcache
 
-import android.util.Log
-import com.adnroidapp.muvieapp.model.ClassKey
 import com.adnroidapp.muvieapp.model.ClassKey.SEPARATOR
 import com.adnroidapp.muvieapp.model.api.data.Cast
 import com.adnroidapp.muvieapp.model.api.data.MoviesDetail
@@ -17,7 +15,6 @@ class CacheRoomMovieDetail(val db: DBMovies) : IMoviesDetailCache {
     }
 
     override fun putMoviesDetail(movies: MoviesDetail) {
-        Log.v(ClassKey.LOG_KEY, "CacheRoomMovieDetail putMoviesDetail(movies.size = ${movies.title})")
         val movieRoom = movies.let { movie ->
             RoomDetailMovie(
                 id = movie.id,

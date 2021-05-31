@@ -10,7 +10,6 @@
     <string name="favorite">Любимые</string>
     <string name="top_rate">Высшая оценка</string>
     <string name="popular">Популярные</string>
-    <string name="error_internet_not_connect">Ошибка: интернет не подключен</string>
     <string name="error_server_connect">Ошибка: сервер не отвечает</string>
     <string name="fragment_age_category">%s+</string>
     <string name="fragment_reviews">%s Отзывов</string>
@@ -19,6 +18,4 @@
     <string name="dialog_button_hide">Скрыть</string>
     <string name="snackBar_title_device_is_offline_version_q">Нет интернет соебинения.\nОткрыть настройки соединения?</string>
     <string name="snackBar_title_device_is_offline">Нет интернет соебинения.</string>
-
-    <string name="LANGUAGE_API">ru</string>
 </resources>
