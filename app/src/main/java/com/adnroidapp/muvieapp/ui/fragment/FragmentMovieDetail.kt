@@ -48,6 +48,8 @@ class FragmentMovieDetail : MvpAppCompatFragment(R.layout.fragment_movie_details
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        movieDetailSubComponent = App.instance.initMovieDetailSubComponent()
+
         initView(view)
         initAdapterActor()
     }

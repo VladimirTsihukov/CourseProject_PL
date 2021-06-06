@@ -40,6 +40,8 @@ class FragmentMovieList : MvpAppCompatFragment(R.layout.fragment_movies_list), B
         initShimmerContainer(view)
         initBottomNavigation()
 
+        movieSubComponent = App.instance.initMovieSubComponent()
+
         bottomNav.visibility = View.VISIBLE
         recycler = view.findViewById(R.id.res_view_move_list)
     }
