@@ -2,23 +2,23 @@ package com.adnroidapp.muvieapp
 
 import android.app.Application
 import android.util.Log
-import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
-import com.adnroidapp.muvieapp.mvp.di.AppComponent
-import com.adnroidapp.muvieapp.mvp.di.DaggerAppComponent
-import com.adnroidapp.muvieapp.mvp.di.modules.AppModule
-import com.adnroidapp.muvieapp.mvp.di.movie.MovieSubComponent
-import com.adnroidapp.muvieapp.mvp.di.movieDetail.MovieDetailSubComponent
+import com.adnroidapp.muvieapp.di.AppComponent
+import com.adnroidapp.muvieapp.di.DaggerAppComponent
+import com.adnroidapp.muvieapp.di.modules.AppModule
+import com.adnroidapp.muvieapp.di.movie.MovieSubComponent
+import com.adnroidapp.muvieapp.di.movieDetail.MovieDetailSubComponent
+import com.adnroidapp.muvieapp.model.ClassKey.LOG_KEY
 
 class App : Application() {
 
     lateinit var appComponent: AppComponent
-    private set
+        private set
 
     var movieSubComponent: MovieSubComponent? = null
-    private set
+        private set
 
     var movieDetailSubComponent: MovieDetailSubComponent? = null
-    private set
+        private set
 
     companion object {
         lateinit var instance: App

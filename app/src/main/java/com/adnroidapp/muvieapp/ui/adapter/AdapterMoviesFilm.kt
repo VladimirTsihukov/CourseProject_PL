@@ -1,25 +1,23 @@
 package com.adnroidapp.muvieapp.ui.adapter
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
-import com.adnroidapp.muvieapp.ClassKey.LOG_KEY
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.data.Movie
-import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderActor
-import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderMovie
-import com.adnroidapp.muvieapp.mvp.view.preenterView.PresenterDetailViewClick
+import com.adnroidapp.muvieapp.model.api.data.Movie
+import com.adnroidapp.muvieapp.model.image.IImageLoaderMovie
+import com.adnroidapp.muvieapp.presenter.view.preenterView.ViewPresenterDetailClick
+import kotlinx.android.synthetic.main.layout_stars_holder.view.*
+import kotlinx.android.synthetic.main.view_item_holder_movies.view.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick)
-    : RecyclerView.Adapter<AdapterMoviesFilm.HolderMovies>() {
+class AdapterMoviesFilm(private val presenterPresenterDetail: ViewPresenterDetailClick) :
+    RecyclerView.Adapter<AdapterMoviesFilm.HolderMovies>() {
 
     @Inject
     lateinit var imageLoaderActorMovie: IImageLoaderMovie<ImageView>
@@ -29,60 +27,58 @@ class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderMovies {
         return HolderMovies(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_movies, parent, false)
+                .inflate(R.layout.view_item_holder_movies, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.alpha)
         holder.onBind(movies[position])
-        holder.item.setOnClickListener {
-            Log.v(LOG_KEY, "AdapterMoviesFilm: click movie id = ${movies[position].id}")
-            presenter.clickMovie(movies[position].id) }
-        holder.iconLike.setOnClickListener {
-            Log.v(LOG_KEY, "AdapterMoviesFilm: click like icon")
-            presenter.clickLikeIcon(movies[position].likeMovies, movies[position])
-            movies[position].likeMovies = !movies[position].likeMovies
-            notifyDataSetChanged()
-        }
     }
 
     override fun getItemCount(): Int = movies.size
 
     fun bindMovies(newMovies: List<Movie>) {
+        val diffUtilResult = DiffUtil.calculateDiff(DiffUtilMovie(oldList = movies, newList = newMovies))
+        diffUtilResult.dispatchUpdatesTo(this)
         movies = newMovies
-        notifyDataSetChanged()
     }
 
-   inner class HolderMovies(val item: View) : RecyclerView.ViewHolder(item) {
-        private val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
-        private val ageCategory: TextView = item.findViewById(R.id.holder_age_category)
-        private val star1: ImageView = item.findViewById(R.id.holder_star_level_1)
-        private val star2: ImageView = item.findViewById(R.id.holder_star_level_2)
-        private val star3: ImageView = item.findViewById(R.id.holder_star_level_3)
-        private val star4: ImageView = item.findViewById(R.id.holder_star_level_4)
-        private val star5: ImageView = item.findViewById(R.id.holder_star_level_5)
-        private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
-        private val reviews: TextView = item.findViewById(R.id.holder_reviews)
-        private val filName: TextView = item.findViewById(R.id.holder_film_name)
-        val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
+    inner class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
+        private val imageFilm: ImageView = item.findViewById(R.id.img_holder_film)
+        private val iconLike: ImageView = item.findViewById(R.id.img_holder_like)
 
-        @SuppressLint("SetTextI18n")
-        fun onBind(movie: Movie) {
-
-            setPosterIcon(BASE_URL_MOVIE_IMAGE + movie.posterPath)
-            ageCategory.text = item.context.resources.getString(R.string.fragment_age_category).let {
-                String.format(it, "${if (movie.adult) 16 else 13}")}
-            setImageStars((movie.voteAverage / 2).roundToInt())
-            reviews.text = item.context.resources.getString(R.string.fragment_reviews).let {
-                String.format(it, "${movie.voteCount}")
+        init {
+            iconLike.setOnClickListener {
+                presenterPresenterDetail.clickLikeIcon(movies[adapterPosition].likeMovies, movies[adapterPosition])
+                movies[adapterPosition].likeMovies = !movies[adapterPosition].likeMovies
+                notifyItemChanged(adapterPosition)
             }
-            filName.text = movie.title
+            imageFilm.setOnClickListener {
+                presenterPresenterDetail.clickMovie(movies[adapterPosition].id)
+            }
+        }
+
+        fun onBind(movie: Movie) {
+            with(itemView) {
+                tv_holder_reviews.text =
+                    context.resources.getString(R.string.fragment_reviews).let {
+                        String.format(it, "${movie.voteCount}")
+                    }
+                tv_holder_age_category.visibility = View.VISIBLE
+                tv_holder_age_category.text =
+                    context.getString(R.string.fragment_age_category).let {
+                        String.format(it, "${if (movie.adult) 16 else 13}")
+                    }
+                tv_holder_film_name.text = movie.title
+                img_mask.clipToOutline = true
+            }
+            imageFilm.clipToOutline = true
+            setPosterIcon(movie.posterPath)
+            setImageStars((movie.ratings / 2).roundToInt())
             iconLike.setImageResource(
-                if (movie.likeMovies) {
-                    R.drawable.icon_like_off
-                } else {
-                    R.drawable.icon_like_on
-                }
+                if (movie.likeMovies) R.drawable.ic_like_off
+                else R.drawable.ic_like_on
             )
         }
 
@@ -91,13 +87,24 @@ class AdapterMoviesFilm(private val presenter: PresenterDetailViewClick)
         }
 
         private fun setImageStars(current: Int) {
-            listStar.forEachIndexed { index, _ ->
-                if (index < current) {
-                    (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
-                } else {
-                    (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+            itemView.apply {
+                val listStar = listOf<ImageView>(
+                    img_holder_star_level_1,
+                    img_holder_star_level_2,
+                    img_holder_star_level_3,
+                    img_holder_star_level_4,
+                    img_holder_star_level_5
+                )
+
+                listStar.forEachIndexed { index, _ ->
+                    if (index < current) {
+                        (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_on)
+                    } else {
+                        (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_off)
+                    }
                 }
             }
         }
     }
 }
+

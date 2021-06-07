@@ -3,13 +3,14 @@ package com.adnroidapp.muvieapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.muvieapp.ClassKey.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.muvieapp.R
-import com.adnroidapp.muvieapp.mvp.model.api.data.Cast
-import com.adnroidapp.muvieapp.mvp.model.image.IImageLoaderActor
+import com.adnroidapp.muvieapp.model.ClassKey.BASE_URL_MOVIE_IMAGE
+import com.adnroidapp.muvieapp.model.api.data.Cast
+import com.adnroidapp.muvieapp.model.image.IImageLoaderActor
 import javax.inject.Inject
 
 class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
@@ -27,19 +28,20 @@ class AdapterActors: RecyclerView.Adapter<AdapterActors.HolderActors>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
         return HolderActors(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_actor, parent, false)
+                .inflate(R.layout.view_item_holder_actor, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: HolderActors, position: Int) {
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.alpha)
         holder.onBindActor(actors[position])
     }
 
     override fun getItemCount(): Int = actors.size
 
     inner class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
-        private val imageActor: ImageView = item.findViewById(R.id.holder_actor_image)
-        private val nameActors: TextView = item.findViewById(R.id.holder_actor_name)
+        private val imageActor: ImageView = item.findViewById(R.id.img_holder_actor_image)
+        private val nameActors: TextView = item.findViewById(R.id.tv_holder_actor_name)
 
         fun onBindActor(actor: Cast) {
             nameActors.text = actor.name
