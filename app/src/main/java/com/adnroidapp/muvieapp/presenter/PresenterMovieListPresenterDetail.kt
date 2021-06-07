@@ -50,7 +50,7 @@ class PresenterMovieListPresenterDetail : MvpPresenter<ViewMovieList>(), ViewPre
         loadMoviesType(typeMovie)
     }
 
-    fun loadMoviesType(typeMovie: EnumTypeMovie) {
+    private fun loadMoviesType(typeMovie: EnumTypeMovie) {
         if (typeMovie == EnumTypeMovie.FAVORITE) {
             loadMoviesFavorite()
         } else {
@@ -68,14 +68,15 @@ class PresenterMovieListPresenterDetail : MvpPresenter<ViewMovieList>(), ViewPre
         }
     }
 
-    private fun loadMoviesFavorite() {
+     private fun loadMoviesFavorite() {
         disposable.add(cache.getCacheMoviesLike().observeOn(mainThreadScheduler)
             .subscribe({
                 viewState.getResponse(AppState.Success(it))
             }, {
                 viewState.getResponse(AppState.Error(it))
                 Log.e(ClassKey.LOG_KEY, "Error in loadMoviesFavorite(): ${it.message}")
-            }))
+            })
+        )
     }
 
     override fun clickMovie(movieId: Long) {
@@ -90,16 +91,17 @@ class PresenterMovieListPresenterDetail : MvpPresenter<ViewMovieList>(), ViewPre
                 }, {
                     viewState.getResponse(AppState.Error(it))
                     Log.v(ClassKey.LOG_KEY, "Error in deleteMovieLike(): ${it.message}")
-                }))
+                })
+            )
         } else {
-            getMovieLikeInDB(movies)
+            putMovieLikeInDB(movies)
         }
     }
 
-    private fun getMovieLikeInDB(movies: Movie) {
-        cache.putCacheMoviesLike(movies)
+     private fun putMovieLikeInDB(movies: Movie) {
+        disposable.add(cache.putCacheMoviesLike(movies)
             .observeOn(mainThreadScheduler)
-            .subscribe()
+            .subscribe())
     }
 
     fun backPressed(): Boolean {
